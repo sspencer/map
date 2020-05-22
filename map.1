@@ -25,7 +25,7 @@ Here's an example:
 .Dl $ ls
 .Dl Sy LICENSE   README.md makefile  map.1   map.c
 .Pp
-.Dl $ ls | map f 'echo $f $f'
+.Dl $ ls | map 'echo $f $f'
 .Dl Sy LICENSE LICENSE
 .Dl Sy README.md README.md
 .Dl Sy makefile makefile
@@ -33,7 +33,10 @@ Here's an example:
 .Dl Sy map.c   map.c
 .Pp
 Note that the command must be wrapped in single quotes to prevent
-the variable from being expanded by the shell.
+the variable from being expanded by the shell.  By default, the 
+variable name is 'f'.  You may change the variable name by adding
+by including it as the first argument.
+
 .
 .Sh AUTHOR
 .An Michel Martens Aq mail@soveran.com

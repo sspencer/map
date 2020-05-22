@@ -14,7 +14,19 @@ LICENSE   README.md makefile  map.1   map.c
 ```
 
 ```console
-$ ls | map f 'echo $f $f'
+$ ls | map 'echo $f $f'
+LICENSE LICENSE
+README.md README.md
+makefile makefile
+map.1 map.1
+map.c map.c
+```
+
+By default, the value of each line is set to a variable named 'f'.
+To change this, just include the variable name as the first parameter:
+
+```console
+$ ls | map myvarname 'echo $myvarname $myvarname'
 LICENSE LICENSE
 README.md README.md
 makefile makefile
@@ -54,7 +66,7 @@ Here's how you can do it with different tools:
 With `map`:
 
 ```sh
-ls *.c | map f 'foo $f; bar $f'
+ls *.c | map 'foo $f; bar $f'
 ```
 
 With `xargs`:
@@ -103,7 +115,7 @@ Let's consider these tasks:
 1. Execute a command `foo` on each C file:
 
 ```sh
-ls *.c | map f 'foo $f'
+ls *.c | map 'foo $f'
 ```
 
 ```sh
@@ -117,7 +129,7 @@ find . -name *.c -maxdepth 1 -exec foo {} \;
 2. Execute commands `foo` and `bar` on each C file:
 
 ```sh
-ls *.c | map f 'foo $f; bar $f'
+ls *.c | map 'foo $f; bar $f'
 ```
 
 ```sh
@@ -131,7 +143,7 @@ find . -name *.c -maxdepth 1 -exec foo {} \; -exec bar {} \;
 3. Download files from a list of URLs in a file:
 
 ```sh
-cat urls | map u 'curl -O $u'
+cat urls | map 'curl -O $f'
 ```
 
 ```sh
@@ -142,7 +154,7 @@ cat urls | xargs -n 1 curl -O
    second:
 
 ```sh
-printf "1\n1\n1\n" | map t 'sleep $t && say done'
+printf "1\n1\n1\n" | map 'sleep $f && say done'
 ```
 
 ```sh
@@ -152,7 +164,7 @@ printf "1\n1\n1\n" | xargs -n 1 -I % sh -c 'sleep % && say done'
 5. Same as #4, but run the commands in parallel:
 
 ```sh
-printf "1\n1\n1\n" | map t 'sleep $t && say done &'
+printf "1\n1\n1\n" | map 'sleep $f && say done &'
 ```
 
 ```sh
@@ -162,7 +174,7 @@ printf "1\n1\n1\n" | xargs -n 1 -P 3 -I % sh -c 'sleep % && say done'
 The last three examples are not possible with `find`, because it
 only operates on file hierarchies.
 
-When using `map`, the commands don't vary much because the second
+When using `map`, the commands don't vary much because the command
 argument is a template for a well known syntax. On the other hand,
 there's more variation in the invocations to `xargs` and `find`,
 which means you may need to remember those command line options if

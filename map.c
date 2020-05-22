@@ -33,8 +33,9 @@
 
 int main(int argc, char **argv) {
 
-	if (argc != 3) {
-		printf("usage: %s <variable> <command>\n", argv[0]);
+	if (argc != 2 && argc != 3) {
+		printf("usage: %s '<command> $f'\n", argv[0]);
+		printf("       %s <variable> '<command> $variable'\n", argv[0]);
 		exit(1);
 	}
 
@@ -48,8 +49,14 @@ int main(int argc, char **argv) {
 				line[llen-1] = '\0';
 			}
 
-			setenv(argv[1], line, 1);
-			system(argv[2]);
+			if (argc == 2) {
+				setenv("f", line, 1);
+				system(argv[1]);
+			} else {
+				setenv(argv[1], line, 1);
+				system(argv[2]);
+
+			}
 		}
 	}
 
